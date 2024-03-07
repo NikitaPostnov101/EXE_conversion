@@ -10,23 +10,18 @@ def convert_to_exe():
         return
 
     try:
-        # Убедимся, что файл существует
         if not os.path.isfile(file_path):
             status_label.config(text=f"Файл {file_path} не найден.", fg="red")
             return
 
-        # Получим базовое имя файла без расширения
         base_name = os.path.splitext(os.path.basename(file_path))[0]
 
-        # Создадим папку для сохранения exe-файла
         output_dir = os.path.join(os.path.dirname(file_path), "dist")
         os.makedirs(output_dir, exist_ok=True)
 
-        # Запустим PyInstaller для создания exe-файла
         command = f"pyinstaller --onefile --noconsole {file_path}"
         subprocess.run(command, shell=True, check=True)
 
-        # Переместим exe-файл в папку dist
         exe_file = os.path.join("dist", base_name + ".exe")
         if os.path.exists(exe_file):
             os.replace(exe_file, os.path.join(output_dir, base_name + ".exe"))
